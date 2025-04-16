@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClipFinder 🎬</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            text-align: center; 
+            padding: 50px; 
+        }
+        input { 
+            width: 300px; 
+            padding: 10px; 
+            margin: 10px; 
+        }
+        button { 
+            padding: 10px 20px; 
+        }
+        video { 
+            margin-top: 20px; 
+            max-width: 100%; 
+            height: auto; 
+        }
+    </style>
+</head>
+<body>
+    <h1>ClipFinder 🎬</h1>
+    <p>Entrez une phrase de film :</p>
+    <input type="text" id="phraseInput" placeholder="Tape ta réplique ici...">
+    <button onclick="searchClip()">Rechercher</button>
+
+    <div id="result"></div>
+
+    <script>
+        async function searchClip() {
+            const phrase = document.getElementById('phraseInput').value;
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = "Recherche en cours...";
+
+            try {
+                const response = await fetch(`http://localhost:5000/search?phrase=${encodeURIComponent(phrase)}`);
+                const data = await response.json();
+
+                if (data.clip_url) {
+                    resultDiv.innerHTML = `<video controls src="${data.clip_url}"></video_
