@@ -12,4 +12,12 @@ with open('database.json', 'r') as f:
 def home():
     return jsonify({'message': 'API ClipFinder est en ligne ✅'}), 200
 
-# Route principale pour chercher un
+# Route principale pour chercher une phrase
+@app.route('/search', methods=['POST'])
+def search_clip():
+    data = request.get_json()
+
+    if not data or 'query' not in data:
+        return jsonify({'error': 'Requête invalide. Champ "query" manquant.'}), 400
+
+    query = data['query'].lower
