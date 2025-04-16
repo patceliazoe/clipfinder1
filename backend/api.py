@@ -1,28 +1,28 @@
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify
 import json
-import os
 
 app = Flask(__name__)
 
-# Charger les données JSON
-with open('database.json', 'r', encoding='utf-8') as f:
+# Charger la base de données JSON
+with open('database.json', 'r') as f:
     database = json.load(f)
 
-# Route API pour chercher une phrase
-@app.route('/search', methods=['POST'])
-def search():
-    data = request.json
-    query = data.get('phrase', '').lower().strip()
-    for item in database['repliques']:
-        if query in item['phrase']:
-            return jsonify({'clip': item['clip']})
-    return jsonify({'clip': None})
+# Route d'accueil pour tester si l'API fonctionne
+@app.route('/', methods=['GET'])
+def home():
+    return jsonify({'message': 'API ClipFinder est en ligne ✅'}), 200
 
-# Route pour afficher la page web (frontend)
-@app.route('/')
-def index():
-    return send_from_directory('frontend/src', 'index.html')
+# Route pour chercher un clip
+@app.route('/search', methods=['POST'])
+def search_clip():
+    data = request.get_json()
+    query = data.get('query', '').lower()
+
+    for entry in database:
+        if query in entry['phrase'].lower():
+            return jsonify({'clip': entry['clip']}), 200
+
+    return jsonify({'error': 'Aucun clip trouvé pour cette phrase.'}), 404
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port)
+    app.run(host='0.0.0.0', port=10000)
