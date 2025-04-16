@@ -1,8 +1,10 @@
-
-{
-  "repliques": [
-    {"phrase": "la crepe au sucre des bronzes", "clip": "/clips/bronzes_crepe.mp4"},
-    {"phrase": "c est pas faux", "clip": "/clips/kaamelott_cest_pas_faux.mp4"},
-    {"phrase": "je suis ton pere", "clip": "/clips/starwars_pere.mp4"}
-  ]
-}
+[
+    {
+        "phrase": "je suis ton père",
+        "clip": "https://tonsite.com/clips/starwars_father.mp4"
+    },
+    {
+        "phrase": "la vie est belle",
+        "clip": "https://tonsite.com/clips/lavieestbelle.mp4"
+    }
+]
