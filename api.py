@@ -1,23 +1,24 @@
 from flask import Flask, request, jsonify
-import json
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
-# Charger les données du fichier JSON
-with open('database.json', 'r') as f:
-    database = json.load(f)
-
-# Route d'accueil pour tester si le serveur est en ligne
-@app.route('/', methods=['GET'])
-def home():
-    return jsonify({'message': 'API ClipFinder est en ligne ✅'}), 200
-
-# Route principale pour chercher une phrase
-@app.route('/search', methods=['POST'])
-def search_clip():
+@app.route("/render-video", methods=["POST"])
+def render_video():
     data = request.get_json()
+    phrase = data.get("phrase", "").strip()
 
-    if not data or 'query' not in data:
-        return jsonify({'error': 'Requête invalide. Champ "query" manquant.'}), 400
+    if not phrase:
+        return jsonify({"error": "Aucune phrase reçue."}), 400
 
-    query = data['query'].lower
+    video_url = get_video_for_phrase(phrase)
+    return jsonify({"video_url": video_url})
+
+def get_video_for_phrase(phrase):
+    # Remplace ceci par ta logique réelle.
+    # Pour l'exemple : URL fictive.
+    return f"https://tonstorage.com/videos/{phrase.replace(' ', '_')}.mp4"
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=10000)
