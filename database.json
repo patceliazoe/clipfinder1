@@ -1,8 +1,5 @@
-
-{
-  "repliques": [
-    {"phrase": "la crepe au sucre des bronzes", "clip": "/clips/bronzes_crepe.mp4"},
-    {"phrase": "c est pas faux", "clip": "/clips/kaamelott_cest_pas_faux.mp4"},
-    {"phrase": "je suis ton pere", "clip": "/clips/starwars_pere.mp4"}
-  ]
-}
+[
+    {"phrase": "hello world", "url": "https://example.com/clip1.mp4"},
+    {"phrase": "may the force be with you", "url": "https://example.com/clip2.mp4"},
+    {"phrase": "i am your father", "url": "https://example.com/clip3.mp4"}
+]
