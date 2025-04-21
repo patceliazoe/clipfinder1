@@ -1,56 +1,107 @@
 import React, { useState } from "react";
-import { Input } from "./components/ui/input";
-import { Button } from "./components/ui/button";
+import axios from "axios";
+import "./App.css";
 
 function App() {
-  const [phrase, setPhrase] = useState("");
-  const [videoUrl, setVideoUrl] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [input, setInput] = useState("");
+  const [videoUrl, setVideoUrl] = useState(null);
+  const [error, setError] = useState("");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!phrase) return;
-
-    setLoading(true);
+  const handleSearch = async () => {
+    setError("");
+    setVideoUrl(null);
     try {
-      const response = await fetch("https://TON-BACKEND-URL/render-video", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phrase }),
+      const response = await axios.get("http://localhost:8000/search", {
+        params: { phrase: input },
       });
-
-      const data = await response.json();
-      setVideoUrl(data.video_url);
-    } catch (error) {
-      setVideoUrl("");
+      setVideoUrl(`http://localhost:8000/search?phrase=${encodeURIComponent(input)}`);
+    } catch (err) {
+      setError("Aucun extrait trouvé.");
     }
-    setLoading(false);
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-100">
-      <h1 className="text-3xl font-bold mb-4 text-center">Trouve ta scène !</h1>
+    <div style={{
+      minHeight: "100vh",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      background: "linear-gradient(to bottom, #FFEDD5, #FFFAF0)",
+      padding: "20px"
+    }}>
+      <h1 style={{
+        fontSize: "2.5rem",
+        color: "#EA580C",
+        marginBottom: "2rem",
+        fontFamily: "Poppins, sans-serif"
+      }}>
+        ClipFinder 🎬
+      </h1>
 
-      <form onSubmit={handleSubmit} className="flex gap-2 w-full max-w-md">
-        <Input
+      <div style={{
+        display: "flex",
+        gap: "10px",
+        width: "100%",
+        maxWidth: "500px"
+      }}>
+        <input
+          style={{
+            flexGrow: 1,
+            padding: "14px",
+            borderRadius: "16px",
+            border: "1px solid #FB923C",
+            boxShadow: "0 0 8px rgba(0,0,0,0.05)"
+          }}
           type="text"
-          placeholder="Écris une phrase..."
-          value={phrase}
-          onChange={(e) => setPhrase(e.target.value)}
+          placeholder="Ex : la crêpe au sucre..."
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
         />
-        <Button type="submit" disabled={loading}>
-          {loading ? "Recherche..." : "Envoyer"}
-        </Button>
-      </form>
+        <button
+          onClick={handleSearch}
+          style={{
+            backgroundColor: "#F97316",
+            color: "white",
+            fontWeight: "600",
+            padding: "10px 20px",
+            borderRadius: "16px",
+            border: "none",
+            boxShadow: "0 3px 6px rgba(0,0,0,0.15)",
+            cursor: "pointer"
+          }}
+        >
+          Chercher
+        </button>
+      </div>
+
+      {error && <p style={{ color: "red", marginTop: "20px" }}>{error}</p>}
 
       {videoUrl && (
-        <div className="mt-6">
-          <video src={videoUrl} controls className="rounded-2xl shadow-lg" />
+        <div style={{ marginTop: "30px", width: "100%", maxWidth: "700px" }}>
+          <video
+            src={videoUrl}
+            controls
+            autoPlay
+            style={{
+              width: "100%",
+              borderRadius: "16px",
+              boxShadow: "0 4px 12px rgba(0,0,0,0.15)"
+            }}
+          />
         </div>
       )}
+
+      <p style={{
+        color: "#6B7280",
+        fontSize: "14px",
+        marginTop: "60px",
+        fontFamily: "Open Sans, sans-serif"
+      }}>
+        Tape une réplique et regarde la magie 🧡
+      </p>
     </div>
   );
 }
 
 export default App;
-
