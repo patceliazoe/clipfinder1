@@ -1,7 +1,9 @@
 services:
   - type: web
-    name: clipfinder-backend
+    name: clipfinder1-4
     env: python
-    plan: free
     buildCommand: ""
-    startCommand: python app.py
+    startCommand: "gunicorn app:app --bind 0.0.0.0:$PORT"
+    envVars:
+      - key: PORT
+        value: 10000
