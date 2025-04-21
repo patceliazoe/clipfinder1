@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+gunicorn
+python-Levenshtein
+python-multipart
+pydantic
+ffmpeg-python
