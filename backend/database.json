@@ -1,10 +1,11 @@
 [
     {
-        "phrase": "je suis ton père",
-        "clip": "https://tonsite.com/clips/starwars_father.mp4"
+        "phrase": "may the force be with you",
+        "url": "https://yourstorage.com/starwars_clip.mp4"
     },
     {
-        "phrase": "la vie est belle",
-        "clip": "https://tonsite.com/clips/lavieestbelle.mp4"
+        "phrase": "i'll be back",
+        "url": "https://yourstorage.com/terminator_clip.mp4"
     }
 ]
+
